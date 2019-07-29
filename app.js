@@ -6,6 +6,7 @@ const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 3000;
+const plantRouter = express.Router();
 
 app.use(morgan('tiny'));
 app.use(express.static(path.join(__dirname, '/public/')));
@@ -15,8 +16,19 @@ app.use('/js', express.static(path.join(__dirname, '/node_modules/jquery/dist'))
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
+plantRouter.route('/plants')
+  .get((req, res) => {
+    res.send('hello books');
+  });
 app.get('/', (req, res) => {
-  res.render('index', { list: ['a', 'b'], title: 'My ApP' });
+  res.render(
+    'index',
+    {
+      nav: [{ link: '/plants', title: 'Plants' },
+        { link: '/cars', title: 'Cars' }],
+      title: 'My ApP'
+    }
+  );
 });
 
 app.listen(port, () => {
