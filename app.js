@@ -16,10 +16,12 @@ app.use('/js', express.static(path.join(__dirname, '/node_modules/jquery/dist'))
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
-plantRouter.route('/plants')
+plantRouter.route('/')
   .get((req, res) => {
     res.send('hello books');
   });
+
+app.use('/plants', plantRouter);
 app.get('/', (req, res) => {
   res.render(
     'index',
