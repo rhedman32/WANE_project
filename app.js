@@ -16,9 +16,27 @@ app.use('/js', express.static(path.join(__dirname, '/node_modules/jquery/dist'))
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
+const plants = [
+  {
+    name: 'succulent'
+  },
+  {
+    name: 'orchid'
+  }
+];
 plantRouter.route('/')
   .get((req, res) => {
-    res.send('hello books');
+    res.render('plants',
+      {
+        nav: [{ link: '/plants', title: 'Plants' },
+          { link: '/cars', title: 'Cars' }],
+        title: 'My ApP'
+      });
+  });
+
+plantRouter.route('/single')
+  .get((req, res) => {
+    res.send('hello single plant')
   });
 
 app.use('/plants', plantRouter);
