@@ -22,9 +22,17 @@ plantRouter.route('/')
       });
   });
 
-plantRouter.route('/single')
+plantRouter.route('/:id')
   .get((req, res) => {
-    res.send('hello single plant')
+    const { id } = req.params;
+    res.render(
+      'plantView',
+      {
+        nav: [{ link: '/plants', title: 'Plants' },
+          { link: '/cars', title: 'Cars' }],
+        title: 'My ApP',
+        plant: plants[id]
+      });
   });
 
 module.exports = plantRouter;
