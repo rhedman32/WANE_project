@@ -13,7 +13,8 @@ const plants = [
 ];
 plantRouter.route('/')
   .get((req, res) => {
-    res.render('plants',
+    res.render(
+      'plantListView',
       {
         nav: [{ link: '/plants', title: 'Plants' },
           { link: '/cars', title: 'Cars' }],
