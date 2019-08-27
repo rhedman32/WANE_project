@@ -6,7 +6,7 @@ const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 3000;
-const plantRouter = express.Router();
+const plantRouter = require('./src/routes/plantRoutes');
 
 app.use(morgan('tiny'));
 app.use(express.static(path.join(__dirname, '/public/')));
@@ -15,32 +15,6 @@ app.use('/js', express.static(path.join(__dirname, '/node_modules/bootstrap/dist
 app.use('/js', express.static(path.join(__dirname, '/node_modules/jquery/dist')));
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
-
-const plants = [
-  {
-    name: 'suku',
-    type: 'succulent'
-  },
-  {
-    name: 'brasavola',
-    type: 'orchid'
-  }
-];
-plantRouter.route('/')
-  .get((req, res) => {
-    res.render('plants',
-      {
-        nav: [{ link: '/plants', title: 'Plants' },
-          { link: '/cars', title: 'Cars' }],
-        title: 'My ApP',
-        plants
-      });
-  });
-
-plantRouter.route('/single')
-  .get((req, res) => {
-    res.send('hello single plant')
-  });
 
 app.use('/plants', plantRouter);
 app.get('/', (req, res) => {
