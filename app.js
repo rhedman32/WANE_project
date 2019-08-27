@@ -18,10 +18,12 @@ app.set('view engine', 'ejs');
 
 const plants = [
   {
-    name: 'succulent'
+    name: 'suku',
+    type: 'succulent'
   },
   {
-    name: 'orchid'
+    name: 'brasavola',
+    type: 'orchid'
   }
 ];
 plantRouter.route('/')
@@ -30,7 +32,8 @@ plantRouter.route('/')
       {
         nav: [{ link: '/plants', title: 'Plants' },
           { link: '/cars', title: 'Cars' }],
-        title: 'My ApP'
+        title: 'My ApP',
+        plants
       });
   });
 
