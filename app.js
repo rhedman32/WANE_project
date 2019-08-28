@@ -6,7 +6,12 @@ const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 3000;
-const plantRouter = require('./src/routes/plantRoutes');
+
+const nav = [
+  { link: '/plants', title: 'Plants' },
+  { link: '/cars', title: 'Cars' }
+];
+const plantRouter = require('./src/routes/plantRoutes')(nav);
 
 app.use(morgan('tiny'));
 app.use(express.static(path.join(__dirname, '/public/')));

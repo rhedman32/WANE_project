@@ -1,39 +1,39 @@
 const express = require('express');
 const plantRouter = express.Router();
 
-const plants = [
-  {
-    name: 'suku',
-    type: 'succulent'
-  },
-  {
-    name: 'brasavola',
-    type: 'orchid'
-  }
-];
-plantRouter.route('/')
-  .get((req, res) => {
-    res.render(
-      'plantListView',
-      {
-        nav: [{ link: '/plants', title: 'Plants' },
-          { link: '/cars', title: 'Cars' }],
-        title: 'My ApP',
-        plants
-      });
-  });
+function router(nav) {
+  const plants = [
+    {
+      name: 'suku',
+      type: 'succulent'
+    },
+    {
+      name: 'brasavola',
+      type: 'orchid'
+    }
+  ];
+  plantRouter.route('/')
+    .get((req, res) => {
+      res.render(
+        'plantListView',
+        {
+          nav,
+          title: 'My ApP',
+          plants
+        });
+    });
+  plantRouter.route('/:id')
+    .get((req, res) => {
+      const { id } = req.params;
+      res.render(
+        'plantView',
+        {
+          nav,
+          title: 'My ApP',
+          plant: plants[id]
+        });
+    });
+  return plantRouter;
+}
 
-plantRouter.route('/:id')
-  .get((req, res) => {
-    const { id } = req.params;
-    res.render(
-      'plantView',
-      {
-        nav: [{ link: '/plants', title: 'Plants' },
-          { link: '/cars', title: 'Cars' }],
-        title: 'My ApP',
-        plant: plants[id]
-      });
-  });
-
-module.exports = plantRouter;
+module.exports = router;
