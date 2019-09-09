@@ -1,5 +1,7 @@
 const express = require('express');
 const plantRouter = express.Router();
+const sql = require('mssql');
+const debug =  require('debug')('app:plantRoute');
 
 function router(nav) {
   const plants = [
@@ -14,12 +16,18 @@ function router(nav) {
   ];
   plantRouter.route('/')
     .get((req, res) => {
-      res.render(
-        'plantListView',
-        {
-          nav,
-          title: 'My ApP',
-          plants
+      const request = new sql.Request();
+
+      request.query('select * from plants')
+        .then((result) => {
+          debug(result);
+          res.render(
+            'plantListView',
+            {
+              nav,
+              title: 'My ApP',
+              plants: result.recordset
+            });
         });
     });
   plantRouter.route('/:id')
