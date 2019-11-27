@@ -37,6 +37,8 @@ function router(nav) {
         const { recordset } = 
         await request.input('id', sql.Int, id)
           .query('select * from plants where id = @id');
+        [req.plant] = recordset;
+        next();
       }());
     })
     .get((req, res) => {
@@ -45,7 +47,7 @@ function router(nav) {
         {
           nav,
           title: 'My ApP',
-          plant: recordset[0]
+          plant: req.plant
         }
       );      
     });
