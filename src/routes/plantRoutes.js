@@ -18,27 +18,36 @@ function router(nav) {
     .get((req, res) => {
       (async function query() {
         const request = new sql.Request();
-        const result = await request.query('select * from plants');
+        const { recordset } = await request.query('select * from plants');
         res.render(
           'plantListView',
           {
             nav,
             title: 'My ApP',
-            plants: result.recordset
+            plants: recordset
           });
       });
     });
+
   plantRouter.route('/:id')
+    .all((req, res, next) =>{
+      (async function query() {
+        const { id } = req.params;
+        const request = new sql.Request();
+        const { recordset } = 
+        await request.input('id', sql.Int, id)
+          .query('select * from plants where id = @id');
+      }());
+    })
     .get((req, res) => {
-      const { id } = req.params;
       res.render(
         'plantView',
         {
           nav,
           title: 'My ApP',
-          plant: plants[id]
+          plant: recordset[0]
         }
-      );
+      );      
     });
   return plantRouter;
 }
