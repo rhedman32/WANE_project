@@ -39,8 +39,11 @@ const nav = [
   { link: '/cars', title: 'Cars' }
 ];
 const plantRouter = require('./src/routes/plantRoutes')(nav);
+const adminRouter = require('./src/routes/adminRoutes')(nav);
 
 app.use('/plants', plantRouter);
+app.use('/admin', adminRouter);
+
 app.get('/', (req, res) => {
   res.render(
     'index',
