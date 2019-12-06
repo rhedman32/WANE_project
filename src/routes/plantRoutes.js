@@ -1,27 +1,38 @@
 const express = require('express');
 const plantRouter = express.Router();
+const { MongoClient } = require('mongodb');
+const debug = require('debug')('app:plantRoutes');
 
 function router(nav) {
-  const plants = [
-    {
-      name: 'suku',
-      type: 'succulent'
-    },
-    {
-      name: 'brasavola',
-      type: 'orchid'
-    }
-  ];
   plantRouter.route('/')
     .get((req, res) => {
-      res.render(
-        'plantListView',
-        {
-          nav,
-          title: 'My ApP',
-          plants
+      const url = 'mongodb://localhost:27017'
+      const dbName = 'MyApp';
+
+      (async function mongo() {
+        let client;
+        try {
+          client = await MongoClient.connect(url);
+          debug('Connect correctly to server');
+
+          const db = client.db(dbName);
+
+          const col = await db.collection('plants');
+
+          const plants = await col.find().toArray();
+          res.render(
+            'plantListView',
+            {
+              nav,
+              title: 'My ApP',
+              plants
+            }
+          );
+        } catch (err) {
+          debug(err.stack);
         }
-      );
+        client.close();
+      }());
     });
 
   plantRouter.route('/:id')
