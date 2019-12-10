@@ -6,7 +6,7 @@ const debug = require('debug')('app:plantRoutes');
 function router(nav) {
   plantRouter.route('/')
     .get((req, res) => {
-      const url = 'mongodb://localhost:27017'
+      const url = 'mongodb://localhost:27017';
       const dbName = 'MyApp';
 
       (async function mongo() {
