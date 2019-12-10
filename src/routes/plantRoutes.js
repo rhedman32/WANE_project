@@ -1,6 +1,6 @@
 const express = require('express');
 const plantRouter = express.Router();
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectID } = require('mongodb');
 const debug = require('debug')('app:plantRoutes');
 
 function router(nav) {
@@ -38,14 +38,33 @@ function router(nav) {
   plantRouter.route('/:id')
     .get((req, res) => {
       const { id } = req.params;
-      res.render(
-        'plantView',
-        {
-          nav,
-          title: 'My ApP',
-          plant: plants[id]
+      const url = 'mongodb://localhost:27017'
+      const dbName = 'MyApp';
+
+      (async function mongo() {
+        let client;
+        try {
+          client = await MongoClient.connect(url);
+          debug('Connect correctly to server');
+
+          const db = client.db(dbName);
+
+          const col = await db.collection('plants');
+
+          const plant = await col.findOne({_id:new ObjectID(id) });
+          debug(plant)
+          res.render(
+            'plantView',
+            {
+              nav,
+              title: 'My ApP',
+              plant
+            }
+          );
+        } catch (err) {
+          debug(err.stack);
         }
-      );
+      }());
     });
   return plantRouter;
 }

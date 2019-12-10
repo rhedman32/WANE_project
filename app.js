@@ -9,10 +9,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 const config = {
-  user: 'rhedman',
-  password: 'Arianna!32',
-  server: 'rhserver.database.windows.net', // You can use 'localhost\\instance' to connect to named instance
-  database: 'RHDatabase',
+
 
   options: {
     encrypt: true // Use this if you're on Windows Azure
