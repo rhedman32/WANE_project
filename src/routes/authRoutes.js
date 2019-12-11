@@ -2,8 +2,14 @@ const express = require('express');
 const { MongoClient } = require('mongodb');
 const debug = require('debug')('app:authRoutes');
 
-function router() {
-    
-};
+const authRouter = express.Router();
 
-module.exports router;
+function router() {
+  authRouter.route('/signUp')
+    .post((req, res) => {
+      debug(req.body);
+    });
+  return authRouter;
+}
+
+module.exports = router;
